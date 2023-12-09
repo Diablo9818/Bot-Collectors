@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Resourse : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    public bool IsReserved { get; private set; }
+
+    public void Reserve()
     {
-        if(other.TryGetComponent(out Unit unit))
-        {
-            transform.SetParent(unit.transform);
-            unit.BecomeFull();
-        }
+        IsReserved = true;
     }
 }

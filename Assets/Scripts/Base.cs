@@ -7,67 +7,68 @@ using static UnityEngine.ParticleSystem;
 public class Base : MonoBehaviour
 {
     [SerializeField] private List<Unit> _units;
-    [SerializeField] private List<Resourse> _resourses;
 
-    private Transform _resourseTransform;
-    private int _resourseCount = 0;
-    private int _currenResourseIndex = 0;
-    private Resourse _resourse;
+    private List<Resourse> _resourses;
+    private int _resourseAmmount = 0;
 
     private void Start()
     {
-        _resourses = GameObject.FindObjectsOfType<Resourse>().ToList();
+        _resourses = FindObjectsOfType<Resourse>().ToList();
     }
 
     private void Update()
     {
-        _resourse = _resourses[_currenResourseIndex];
-
-        if (_resourse != null)
+        if (TryGetFreeUnit(out Unit unit))
         {
-            _resourseTransform = _resourse.transform;
-
-            Unit unit = _units.FirstOrDefault(unit => !unit.IsBusy);
-
-            if (unit != null)
+            if (TryGetFreeResourse(out Resourse resourse))
             {
-                unit.SetTarget(_resourseTransform);
-                unit.BecomeBusy();
-
-                _currenResourseIndex = (_currenResourseIndex + 1) % _resourses.Count;
+                resourse.Reserve();
+                unit.SetResourceTarget(resourse);
             }
         }
-
-        Debug.Log(_resourses.Count);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Unit unit))
         {
-            unit.BecomeFree();
+            var resource = unit.Resource;
+
+            _resourses.Remove(resource);
+
             unit.GiveResourseToBase();
-            unit.BecomeEmpty();
-            _resourseCount++;
-            _resourse = null;
-            _resourseTransform = null;
-            _resourses.RemoveAt(_currenResourseIndex);
-            Debug.Log("Resourse Count:" + _resourses.Count);
+
+            _resourseAmmount++;
         }
     }
 
-    private void SendUnit(Transform target)
+    private bool TryGetFreeUnit(out Unit freeUnit)
     {
-        Unit unit = _units.First( unit => !unit.IsBusy);
-        unit.SetTarget(target);
-        unit.BecomeBusy();
+        foreach (Unit unit in _units)
+        {
+            if (!unit.IsBusy)
+            {
+                freeUnit = unit;
+                return true;
+            }
+        }
+
+        freeUnit = null;
+        return false;
     }
 
-    private Resourse GetRandomResourse()
+    private bool TryGetFreeResourse(out Resourse freeResourse)
     {
-        int index = Random.Range(0, _resourseCount);
-        _currenResourseIndex = index;
-        Debug.Log(index);
-        return _resourses[index];
+        foreach (Resourse resourse in _resourses)
+        {
+            if (resourse.IsReserved == false)
+            {
+                freeResourse = resourse;
+                return true;
+            }
+        }
+
+        freeResourse = null;
+        return false;
     }
 }

@@ -21,9 +21,9 @@ public class ResourseSpawner : MonoBehaviour
 
     private void Spawn()
     {
-        for (int i = 0; i <_count; i++)
+        for (int i = 0; i < _count; i++)
         {
-            Instantiate(_resourcesToSpawn, GetTransformPosition(),Quaternion.identity);
+            Instantiate(_resourcesToSpawn, GetTransformPosition(), Quaternion.identity);
         }
     }
 

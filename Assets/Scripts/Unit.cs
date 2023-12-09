@@ -12,11 +12,11 @@ public class Unit : MonoBehaviour
 
     [SerializeField] private Transform _basePosition;
 
-    private Transform _target;
     private Rigidbody _rigidbody;
 
-    public bool IsBusy { get { return _isBusy; } }
-    public bool IsFull { get { return _isFull; } }
+    public Resourse Resource { get; private set; }
+    public bool IsBusy => _isBusy;
+    public bool IsFull => _isFull;
 
     private void Awake()
     {
@@ -25,33 +25,15 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
-        if(_target != null && !_isFull)
+        if (Resource != null && !_isFull)
         {
             Move();
         }
+
         if (_isFull)
         {
             MoveToBase();
         }
-    }
-    public void BecomeFull()
-    {
-        _isFull = true;
-    }   
-
-    public void BecomeEmpty()
-    {
-        _isFull = false;
-    }   
-    
-    public void BecomeBusy()
-    {
-        _isBusy = true;
-    }
-
-    public void BecomeFree()
-    {
-        _isBusy = false;
     }
 
     public void MoveToBase()
@@ -66,12 +48,15 @@ public class Unit : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        _target = null;
+        Resource = null;
+        _isBusy = false;
+        _isFull = false;
     }
 
-    public void SetTarget(Transform newTarget)
+    public void SetResourceTarget(Resourse newTarget)
     {
-        _target = newTarget;
+        Resource = newTarget;
+        _isBusy = true;
     }
 
     private void Move()
@@ -81,7 +66,21 @@ public class Unit : MonoBehaviour
 
     private Vector3 FindDirection()
     {
-        return (_target.position - transform.position).normalized;
+        return (Resource.transform.position - transform.position).normalized;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Resourse resourse))
+        {
+            if (resourse != Resource)
+            {
+                return;
+            }
+
+            resourse.transform.SetParent(transform);
+            resourse.transform.position = new Vector3(transform.position.x, resourse.transform.position.y + 0.5f, transform.position.z);
+            _isFull = true;
+        }
+    }
 }
