@@ -581,6 +581,7 @@ GameObject:
   - component: {fileID: 1739531826}
   - component: {fileID: 1739531825}
   - component: {fileID: 1739531829}
+  - component: {fileID: 1739531831}
   - component: {fileID: 1739531830}
   m_Layer: 0
   m_Name: Base
@@ -691,7 +692,6 @@ MonoBehaviour:
   - {fileID: 1199032488}
   - {fileID: 1508130238}
   - {fileID: 228063270}
-  _resourses: []
 --- !u!54 &1739531830
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -719,6 +719,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1739531831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739531824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 681608d7c11007b4ea488f27d1df0ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2138840434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -796,10 +808,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3457256717967107681, guid: c6d604427e7956b4184e100c75df1aed, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     - target: {fileID: 5262930089859178817, guid: c6d604427e7956b4184e100c75df1aed, type: 3}
       propertyPath: m_Name
       value: Unit
