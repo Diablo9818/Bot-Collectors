@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(Base))]
 public class ResourseCollector : MonoBehaviour
 {
     private Queue <Resourse> _resourses;

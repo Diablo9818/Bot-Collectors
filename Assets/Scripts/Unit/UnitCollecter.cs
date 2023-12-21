@@ -6,6 +6,7 @@ public class UnitCollecter : MonoBehaviour
 {
     [SerializeField] private bool _isBusy = false;
     [SerializeField] private bool _isFull = false;
+    [SerializeField] private float _resoursePositionYOffset = 0.5f;
 
     public Resourse Resource { get; private set; }
     public bool IsBusy => _isBusy;
@@ -39,7 +40,7 @@ public class UnitCollecter : MonoBehaviour
             }
 
             resourse.transform.SetParent(transform);
-            resourse.transform.position = new Vector3(transform.position.x, resourse.transform.position.y + 0.5f, transform.position.z);
+            resourse.transform.position = new Vector3(transform.position.x, resourse.transform.position.y + _resoursePositionYOffset, transform.position.z);
             _isFull = true;
         }
     }
