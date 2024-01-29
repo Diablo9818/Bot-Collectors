@@ -29,7 +29,7 @@ public class BotCollector : MonoBehaviour
 
     public void Drop()
     {
-        _storage.UpdateResourcesCount();
+        _storage.IncreaseResourcesCount();
         Destroy(_targetResource.gameObject);
     }
 }

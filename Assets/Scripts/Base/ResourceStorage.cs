@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class ResourceStorage : MonoBehaviour
 {
-    public int ResourcesCount { get; private set; }
+    [field: SerializeField] public int ResourcesCount { get; private set; }
 
-    public void UpdateResourcesCount()
+    public void IncreaseResourcesCount()
     {
         ResourcesCount ++;
+    }
+
+    public void DecreaseResourcesCount(int ammount)
+    {
+        ResourcesCount-=ammount;
     }
 }

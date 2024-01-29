@@ -4,11 +4,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(BotMover))]
 [RequireComponent(typeof(BotCollector))]
+[RequireComponent(typeof(BotBuilder))]
 public class Bot : MonoBehaviour
 {
     private BotBase _botBase;
     private BotMover _mover;
     private BotCollector _collector;
+    private BotBuilder _builder;
+
+    private Transform _newBaseTarget;
 
     public bool IsBusy { get; private set; }
 
@@ -17,6 +21,7 @@ public class Bot : MonoBehaviour
         _botBase = botBase;
         _mover = GetComponent<BotMover>();
         _collector = GetComponent<BotCollector>();
+        _builder = GetComponent<BotBuilder>();
         _collector.GetStorage(storage);
     }
 
@@ -25,9 +30,20 @@ public class Bot : MonoBehaviour
         StartCoroutine(RunAsync());
     }
 
+    public void RunToNewBase()
+    {
+        StopCoroutine(RunAsync());
+        StartCoroutine(RunAsyncToNewBase());
+    }
+
     public void SetTarget(Resource resource)
     {
         _collector.SetTarget(resource);
+    }
+
+    public void SetTarget(Transform target)
+    {
+        _newBaseTarget = target;
     }
 
     private IEnumerator RunAsync()
@@ -42,5 +58,17 @@ public class Bot : MonoBehaviour
         yield return _mover.MoveTo(_botBase.transform);
         _collector.Drop();
         IsBusy = false;
+    }
+
+    private IEnumerator RunAsyncToNewBase()
+    {
+        if (_botBase.IsFlagPlaced() && !IsBusy)
+        {
+            IsBusy = true;
+            yield return _mover.MoveTo(_newBaseTarget);
+            _builder.Build();
+        }
+
+        yield break;
     }
 }

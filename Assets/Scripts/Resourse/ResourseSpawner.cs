@@ -5,7 +5,6 @@ using UnityEngine.UIElements;
 
 public class ResourseSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform[] _points;
     [SerializeField] private Resource _resourcePrefab;
 
     [SerializeField] private Vector2 _spawnAreaX;
