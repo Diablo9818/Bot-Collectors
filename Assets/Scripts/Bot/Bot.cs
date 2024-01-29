@@ -27,13 +27,13 @@ public class Bot : MonoBehaviour
 
     public void Run()
     {
-        StartCoroutine(RunAsync());
+        StartCoroutine(RunCorutine());
     }
 
     public void RunToNewBase()
     {
-        StopCoroutine(RunAsync());
-        StartCoroutine(RunAsyncToNewBase());
+        StopCoroutine(RunCorutine());
+        StartCoroutine(RunToNewBaseCorutine());
     }
 
     public void SetTarget(Resource resource)
@@ -46,7 +46,7 @@ public class Bot : MonoBehaviour
         _newBaseTarget = target;
     }
 
-    private IEnumerator RunAsync()
+    private IEnumerator RunCorutine()
     {
         if (_collector.Resource == null)
             yield break;
@@ -60,7 +60,7 @@ public class Bot : MonoBehaviour
         IsBusy = false;
     }
 
-    private IEnumerator RunAsyncToNewBase()
+    private IEnumerator RunToNewBaseCorutine()
     {
         if (_botBase.IsFlagPlaced() && !IsBusy)
         {

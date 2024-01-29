@@ -6,9 +6,10 @@ using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public class BaseFlagPlacer : MonoBehaviour
 {
+    private const string LayerPlaceable = "Placeable";
+
     [SerializeField] private Flag _flagPrefab;
 
-    private const string LayerPlaceable = "Placeable";
     private BaseFlagHandler _currentflagHandler;
 
     private void Update()
